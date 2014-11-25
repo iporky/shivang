@@ -1,0 +1,77 @@
+class Link{
+	int a;
+	public Link next;
+	Link(int a)
+	{
+		this.a =a;
+	}
+	public void disp(){
+		System.out.print(this.a + "-->");
+	}
+}
+
+public class LL
+{
+	 Link first;
+LL()
+{
+	first=null;
+}
+void insert(int a)
+{
+	if(first==null)
+	{
+	Link link=new Link(a);
+	link.next=null;
+	first=link;
+	}
+	else{
+		Link temp=first;
+		while(temp.next!=null){
+			temp=temp.next;
+		}
+		Link link=new Link(a);
+		temp.next=link;
+		link.next=null;
+	}
+}
+void delete(int p)
+{
+	if(first==null)
+	{
+	System.out.print("invalid");
+	}
+	else{
+		Link temp=first;
+		while(temp.next.a!=p){
+			temp=temp.next;
+		}
+		
+		temp.next=temp.next.next;
+		
+	}
+}
+void print(){
+	Link temp=first;
+	while(temp!=null){
+		
+		temp.disp();
+		temp=temp.next;
+	}
+	
+}
+
+ public static void main(String[] args) 
+	{
+		LL i =new LL();
+		i.insert(1);
+		i.insert(143);
+		i.insert(231);
+		i.insert(23);
+		i.print();
+		i.delete(23);
+		i.print();
+
+	}
+
+}
