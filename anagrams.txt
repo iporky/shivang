@@ -23,7 +23,7 @@ public class anagrams {
       counts[pos]++; 
 
       int neg = (int) negative.charAt(i) - 97;
-      if (counts[neg] <= 0) {
+      if (counts[neg] <= 0) {sssssssssssss
         diff++; 
       } else { 
         diff--; 
