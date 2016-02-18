@@ -84,6 +84,10 @@ ul.comment-holder-ul li.comment-holder
     position: relative;
 }   
 
+ul.comment-holder-ul li.comment-holder:hover
+{
+   border:1px solid #c1c1c1; 
+}
 
 
 
@@ -114,6 +118,11 @@ ul.comment-holder-ul li.comment-holder h3.usrnm
    font-size:14px;
    margin:0 0 0 10px;
    
+}
+
+ul.comment-holder-ul li.comment-holder h3.usrnm:hover
+{
+    color: #254a93;
 }
 .comment-body
 {
