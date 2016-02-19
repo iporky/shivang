@@ -1,3 +1,4 @@
+<?php  require_once $_SERVER['DOCUMENT_ROOT'] .'/PhpProject1/defines.php' ?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -19,64 +20,16 @@ and open the template in the editor.
             </div>
             <div class="comment-wrapper">
                 <h3 class="comment-title">User comments.....</h3>
+                
+                <div class="comment-insert">
+                    <h3 class="who-says">Says: Saitama</h3>
+                    <textarea class="comments-insert-text"></textarea>
+                </div>
+                
                 <div class="comments-list">
-                    
                     <ul class="comment-holder-ul">
-                        <li class="comment-holder" id="_1">
-                            <div class="usr-img">
-                                <img src="httpdocs/images/saitama.jpg" class="usr-img-pic" />
-                            </div> 
-                             <div class="comment-body">
-                                <h3 class="usrnm">
-                                   Shivang Chauhan
-                                </h3>
-                                <div class="comment-text">
-                                asdsadsada asdsadsadaasd sadsadaasds adsadaasdsadsad aasdsadsada asdsadsada asdsadsada asdsadsada asdsadsada
-                                     
-                                    
-                                </div>
-                             </div>   
-                            
-                            <div class="comment-button-hldr">
-                                <ul>
-                                    <li class="dlt-btn">
-                                    X
-                                    </li>
-                                
-                                </ul> 
-                            
-                            </div>
-                        
-                        </li>
-                        
-                        
-                        
-                        
-                        <li class="comment-holder" id="_1">
-                            <div class="usr-img">
-                                <img src="httpdocs/images/saitama.jpg" class="usr-img-pic" />
-                            </div> 
-                             <div class="comment-body">
-                                <h3 class="usrnm">
-                                   Shivang Chauhan
-                                </h3>
-                                <div class="comment-text">
-                                
-                                      Comments.......
-                                </div>
-                             </div>   
-                            
-                            <div class="comment-button-hldr">
-                                <ul>
-                                    <li class="dlt-btn">
-                                    X
-                                    </li>
-                                
-                                </ul> 
-                            
-                            </div>
-                        </li>
-                        
+                       <?php $comments = array("a", "b" ,"c", "d","e","f")?>
+                       <?php require_once INCLUDES . 'comment_box.php' ?> 
                         
                     </ul>
                     
