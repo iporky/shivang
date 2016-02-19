@@ -1,12 +1,5 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Feb 18, 2016, 2:50:30 PM
-    Author     : v690705
-*/
+@import url('comment_insert.css');
+
 
 *{
     margin: 0px;
@@ -27,7 +20,7 @@ a img{
     width: 750px;
     border:1px solid #a1a1a1;
     margin: 10px auto 10px auto;
-    height: 600px;
+    height: auto;
 }
 .page-data
 {
@@ -78,7 +71,7 @@ ul.comment-holder-ul li.comment-holder
     list-style-type: none;
     height:auto;
     width: auto;
-    margin: 5px 0 5px 0;
+    margin: 5px 0 10px 0;
     border: 1px solid #e1e1e1;
     overflow: hidden;
     position: relative;
