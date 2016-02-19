@@ -1,0 +1,27 @@
+.comment-insert
+{
+    height: 150px;
+    width: auto;
+    margin:10px;
+    border: 1px solid #e1e1e1;
+}
+
+.comment-insert h3.who-says
+{
+    height: 30px;
+    line-height: 27px;
+    color:#2e5cb8;
+    font-size:14px;
+    width: auto;
+    margin: 0 10px 0 10px;
+    border-bottom:1px solid #e1e1e1;
+}
+
+.comment-insert textArea.comments-insert-text
+{
+    margin: 5px 10px 5px 10px;
+    border: 1px solid #a1a1a1;
+    height: auto;
+    width: 100%;
+        
+}
