@@ -16,12 +16,25 @@
     margin: 0 10px 0 10px;
     border-bottom:1px solid #e1e1e1;
 }
-
-.comment-insert textArea.comments-insert-text
+.comment-insert .container-comnt
 {
     margin: 5px 10px 5px 10px;
     border: 1px solid #a1a1a1;
-    height: auto;
-    width: 100%;
+    min-height: 102px;
+    width: auto;
+    position: relative;
+    
         
+}
+
+.comment-insert textArea.comments-insert-text
+{
+    position: absolute;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    border: none;
+    color:#555;
+    width: 100%;
+    
 }
