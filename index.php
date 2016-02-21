@@ -23,7 +23,9 @@ and open the template in the editor.
                 
                 <div class="comment-insert">
                     <h3 class="who-says">Says: Saitama</h3>
+                   <div class="container-comnt">
                     <textarea class="comments-insert-text"></textarea>
+                    </div>
                 </div>
                 
                 <div class="comments-list">
