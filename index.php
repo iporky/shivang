@@ -11,7 +11,7 @@ and open the template in the editor.
         <title>Comment Box</title>
         <link href="httpdocs/css/layout.css" rel="stylesheet" />
         <script type="text/javascript" src="httpdocs/js/jquery.js"> </script>
-        <script type="text/javascript" src="httpdocs/js/script.js"> </script>
+        <script type="text/javascript" src="httpdocs/js/script.js?t=<?php echo time(); ?>"> </script>
     </head>
     <body>
         <div class="wrapper">
@@ -22,15 +22,19 @@ and open the template in the editor.
                 <h3 class="comment-title">User comments.....</h3>
                 
                 <div class="comment-insert">
-                    <h3 class="who-says">Says: Saitama</h3>
-                   <div class="container-comnt">
-                    <textarea class="comments-insert-text"></textarea>
+                    <h3 class="who-says"><span>Says</span>: Saitama</h3>
+                    <div class="container-comnt" id="comment-insert-container">
+                    <textarea id="comment-post-text" class="comments-insert-text"></textarea>
+                    </div>
+                    <div class="comment-post-btn-wrapper" id="comment-insert-btn">
+                        Post
+                        
                     </div>
                 </div>
                 
                 <div class="comments-list">
                     <ul class="comment-holder-ul">
-                       <?php $comments = array("a", "b" ,"c", "d","e","f")?>
+                       <?php $comments = array("a", "b" ,"c", "d")?>
                        <?php require_once INCLUDES . 'comment_box.php' ?> 
                         
                     </ul>
@@ -38,5 +42,9 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+        
+        <input type="hidden" id="userId" value="1"/>
+        <input type="hidden" id="userName" value="Saitama"/>
+        
     </body>
 </html>
