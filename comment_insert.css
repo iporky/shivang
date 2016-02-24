@@ -2,20 +2,26 @@
 {
     height: 150px;
     width: auto;
-    margin:10px;
+    margin:10px 5px 10px 5px;
     border: 1px solid #e1e1e1;
+    position: relative;
 }
 
+.who-says span
+{
+    color: #254a93;
+}
 .comment-insert h3.who-says
 {
-    height: 30px;
-    line-height: 27px;
+    height: 35px;
+    line-height: 32px;
     color:#2e5cb8;
     font-size:14px;
     width: auto;
     margin: 0 10px 0 10px;
     border-bottom:1px solid #e1e1e1;
 }
+
 .comment-insert .container-comnt
 {
     margin: 5px 10px 5px 10px;
@@ -27,6 +33,10 @@
         
 }
 
+.comment-insert .container-comnt:hover
+{
+ border: 1px solid #c1c1c1;
+}
 .comment-insert textArea.comments-insert-text
 {
     position: absolute;
@@ -36,5 +46,29 @@
     border: none;
     color:#555;
     width: 100%;
+    height: 100%;
+    
+}
+.comment-insert .comment-post-btn-wrapper
+{
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    width: 60px;
+    height: 25px;
+    line-height: 27px;
+    background:#6989cc;
+    color: #FFFFFF;
+    font-size:14px;
+    text-align: center;
+    cursor:pointer; 
+        
+    
+}
+
+.comment-post-btn-wrapper:hover
+{
+    background: #0066ff;
+    color:#eaeaea;
     
 }

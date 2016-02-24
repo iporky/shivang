@@ -11,8 +11,7 @@
                                    Saitama
                                 </h3>
                                 <div class="comment-text">
-                                asdsadsada asdsadsadaasd sadsadaasds adsadaasdsadsad aasdsadsada asdsadsada asdsadsada asdsadsada asdsadsada
-                                     
+                                     hmm OK!
                                     
                                 </div>
                              </div>   
