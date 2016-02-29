@@ -52,14 +52,15 @@ function comment_post_btn_click()
 
 function comment_insert(data)
 {
+   
    var t=''; 
-   t += '<li class="comment-holder" id="_1'+data.comment_id+'">';
+   t += '<li class="comment-holder" id="_1'+data.comment.comment_id+'">';
    t += '    <div class="usr-img">';
-   t += '         <img src="'+data.profile_img+'" class="usr-img-pic" />';
+   t += '         <img src="'+data.user.profile_img+'" class="usr-img-pic" />';
    t += '    </div>'; 
    t += '    <div class="comment-body">';
-   t += '         <h3 class="usrnm">'+data.userName+'</h3>';
-   t += '      <div class="comment-text">'+data.comment+'</div>';
+   t += '         <h3 class="usrnm">'+data.user.userName+'</h3>';
+   t += '      <div class="comment-text">'+data.comment.comment+'</div>';
    t += '    </div> ';  
    t += '    <div class="comment-button-hldr">';
    t += '        <ul>';

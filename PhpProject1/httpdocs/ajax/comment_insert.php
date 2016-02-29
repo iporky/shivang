@@ -7,20 +7,32 @@ if(isset($_POST['task']) && $_POST['task'] == 'comment_insert')
     $userId= (int)$_POST['userId'];
     $comment= addslashes(str_replace("\n","<br />",$_POST['comment']));
     
-    $std= new stdClass();
-    $comment_id=24;
-    $std->userId=$userId;
-    $std->comment=$comment;
-    $std->userName="Saitama";
-    $std->profile_img="httpdocs/images/saitama.jpg";
+       $std= new stdClass();
+       $std->user= NULL;
+       $std->comment=NULL;
+       $std->error=false;
+    
     require_once MODELS_DIR.'comments.php';
-    if(class_exists('comments'))
+    if(class_exists('comments')&& class_exists('subscribers'))
     {
-       $commentInfo= Comments::insert($comment,$userId);
-       if($commentInfo != null)
+       
+       $userInfo = subscribers::getSubscriber($userId);
+       if($userInfo == null)
        {
-           
+          $std->error=TRUE; 
        }
+       
+       $commentInfo= comments::insert($comment,$userId);
+       if($commentInfo == null)
+       {
+           $std->error=TRUE;
+       }
+       $std= new stdClass();
+       $std->user= $userInfo;
+       $std->comment=$commentInfo;
+      
+       
+       
     }
     echo json_encode($std);
     

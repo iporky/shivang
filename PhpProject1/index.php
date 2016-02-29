@@ -1,4 +1,5 @@
 <?php  require_once $_SERVER['DOCUMENT_ROOT'] .'/PhpProject1/defines.php' ?>
+<?php  require_once MODELS_DIR.'comments.php' ?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -34,7 +35,7 @@ and open the template in the editor.
                 
                 <div class="comments-list">
                     <ul class="comment-holder-ul">
-                       <?php $comments = array("a", "b" ,"c", "d")?>
+                       <?php $comments = comments::getComments(); ?>
                        <?php require_once INCLUDES . 'comment_box.php' ?> 
                         
                     </ul>
