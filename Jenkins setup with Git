@@ -1,0 +1,238 @@
+ 
+ 
+ 
+ 
+Git Installation
+Followed this link (comprehensive, no additional steps required) http://www.git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols
+Since this is just a POC installation, so I have done only till http://www.git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server (Each page has next page link through which you can browse)
+Jenkins Installation
+Followed this link (comprehensive, no additional steps required) https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions
+Warning: The page gives steps only for basic installation. No authentication or authorization.
+Since this is a POC installation, not much thought has been given on this aspect
+Maven Installation
+Followed this link: http://www.unixmen.com/install-apache-ant-maven-tomcat-centos-76-5/
+ 
+Jenkins Integration with GIT
+STEP 1: SSH login to GIT setup for Jenkins
+(Steps below) - This is critical so that Jenkins can connect to git without any issue
+1) Login to Jenkins box
+2) run the below command
+sudo su -s /bin/bash jenkins
+cd
+pwd
+3) you should be in /var/lib/jenkins
+4) Execute the following command
+ls -ltr .ssh
+
+5) You should be seeing similar to below
+-rw-r--r-- 1 jenkins jenkins  789 Feb 11 13:19 known_hosts
+-rw------- 1 jenkins root     411 Feb 11 14:27 id_rsa.pub
+-rw------- 1 jenkins root    1675 Feb 11 14:27 id_rsa
+5) Go to this url and set the permissions to folders and files under .ssh accordingly (IMPORTANT) http://www.howtogeek.com/168119/fixing-warning-unprotected-private-key-file-on-linux/
+6) open another putty instance
+7) login to you git instance
+8) execute the following command
+su git
+cd
+vi jenkinsuser.id_rsa.pub
+9) copy the content of /var/lib/jenkins/id_rsa.pub from your Jenkins server to this file and save it. You can transfer the file through scp which is a better option.
+10) execute the following command
+cat jenkinsuser.id_rsa.pub >> ~/.ssh/authorized_keys
+11) Now Jenkins will be able to login to git through SSH without any issue
+STEP 2: Configuring Jenkins
+1) Login to Jenkins web ui
+http://<serer>:8080/
+2) Install the following plugins
+GIT client plugin
+GIT plugin
+SSH Agent Plugin
+3) Add a SSH Credential and User Credential
+SSH Credential creation screen:
+ 
+ 
+User Credential Creation Screen
+ 
+ 
+Once above 2 are done, you should be able to see the 2 users below
+ 
+4) Create a new maven project in jenkins
+ 
+You will be taken to a screen for configuring the project. In that configure the sections as below
+Configure GIT
+ 
+Configure Build Environment as below
+ 
+ 
+Configure SSH Agent as below
+ 
+
+5) Test it by running a build
+ 
+Setting up commit hooks in GIT
+Documentation on git hooks http://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks
+Its so simple and works like a charm  
+Steps
+1) Setup SCM Polling in Jenkins.
+This was counter intuitive as hook in the first place is to avoid polling. But the polling is just enabled and not scheduled. So no polling actually happens.
+Just enable "Poll SCM" and dont enter anything in the schedule text area.
+ 
+2) Setting up GIT Hook
+Login to your git server and go to the directory where you have hosted your repository
+eg: /opt/git/jenkinspoc.git
+execute the following commands
+cd hooks
+cp  post-receive.sample post-receive
+vi post-receive
+Add the following line at the end of the file and save it
+curl http://yourserverurl:portifany/git/notifyCommit?url=<URL of the Git repository>
+That is all!!! Now whenever anyone pushes code to this branch a build will be scheduled automatically.
+Sample: Polling logs in Jenkins showing that there was a automatic change detected even if we have not scheduled a polling.
+ 
+Integrating with Nexus
+Installing Nexus
+Followed this link: http://books.sonatype.com/nexus-book/reference/install.html
+Integrating Nexus with Jenkins
+Add the following section to your POM.xml
+<distributionManagement>
+    <!-- use the following if you're not using a snapshot version. -->
+    <repository>
+        <id>local-repo-release</id>
+        <name>RepositoryProxy</name>
+        <url>http://<nexus server>:8081/nexus/nexus/content/repositories/releases</url>
+    </repository>
+    <!-- use the following if you ARE using a snapshot version. -->
+    <snapshotRepository>
+        <id>local-repo-snapshot</id>
+        <name>RepositoryProxy</name>
+        <url>http://<nexus server>:8081/nexus/content/repositories/snapshots</url>
+    </snapshotRepository>
+</distributionManagement>
+Edit /var/lib/jenkins/.m2/settings.xml in the server where Jenkins is installed and add the following content. Note: User id and password should be what you have configured in Nexus
+<settings>
+<servers>
+    <server>
+        <id>local-repo-snapshot</id>
+        <username>deployment</username>
+        <password>deployment123</password>
+    </server>
+    <server>
+        <id>local-repo-release</id>
+        <username>deployment</username>
+        <password>deployment123</password>
+    </server>
+</servers>
+</settings>
+Change the POM goal in jenkins project setting:
+ 
+All set to do build and deploy into Nexus.
+Integrating with SonarQube
+Installing SonarQube
+Follow the URL: http://www.sonarqube.org/screencasts2/installation-of-sonar/
+Integrating with Jenkins
+Edit /var/lib/jenkins/.m2/settings.xml in the server where Jenkins is installed and add the following content. Note: User id and password should be what you have configured in Nexus
+<profiles>
+        <profile>
+                <id>sonar</id>
+                <activation>
+                        <activeByDefault>true</activeByDefault>
+                </activation>
+                <properties>
+                        <sonar.host.url>
+                          http://166.59.86.62:9000
+                        </sonar.host.url>
+                </properties>
+    </profile>
+</profiles>
+Add a post-build step to jenkins project configuration as below
+ 
+All set!!!
+Sample Report
+ 
+Integrating with JaCoCo
+Add a new profile to project POM as below
+<profile>
+        <id>jacoco</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.6.3.201306030806</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                            <configuration>
+                                <destfile>${project.build.directory}/target/jacoco.exec</destfile>
+                                <datafile>${project.build.directory}/target/jacoco.exec</datafile>
+                                <output>file</output>
+                                <append>true</append>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+Modify the mvn goal in build section of Jenkins project configuration
+ 
+All set!!!
+Sample Report:
+ 
+Refer Unit Tests Coverage in the bottom right corner of the image.
+ 
+yum update on remote server without restart:
+Base on mail from Ron.
+ 
+ 
+Guys,
+Gerald has a Jenkins job on 166.59.83.175 that auto-deploys to an env using a bash script that remotely performs a yum update (via hard coded ip’s). You may find this kind of mechanism useful. Notice it updates everything but Kernel so no reboot is required.
+ 
+ 
+[root@dev-spacewalk ~]# cat /var/lib/jenkins/jobs/Deploy_DS_env/workspace/deploy.sh
+#!/bin/bash
+export nb_nbs_buildkey=/var/lib/jenkins/userContent/nbs_buildkey
+echo 'unset' $$
+unset SSH_AUTH_SOCK
+unset SSH_AUTH_PID
+unset SSH_ASKPASS
+unset DISPLAY
+SSH_AGENT=$(pgrep -u `whoami` ssh-agent)
+DIR=/var/lib/jenkins/jobs/Deploy_DS_env/workspace
+if [ -z "$SSH_AGENT" ]
+then
+    eval `ssh-agent -s` > /dev/null
+fi
+SSH_AUTH_SOCK=$(find /tmp/ssh-* -user `whoami` -name agent\* -printf '%T@ %p\n' 2>/dev/null | sort -k 1nr | sed 's/^[^ ]* //'             | head -n 1)
+export SSH_AUTH_SOCK=$SSH_AUTH_SOCK;
+SSH_AGENT_PID=$SSH_AGENT_PID
+export SSH_AGENT_PID=$SSH_AGENT_PID
+setsid bash -c "echo 'build it!' |ssh-add $nb_nbs_buildkey"
+ssh-add -l
+export MSG='Jenkins deployement started by '$BUILD_USER' '$BUILD_CAUSE' - '`date +'%F %H:%M:%S %Z '`
+#list_hosts=(166.59.87.5 166.59.87.8 166.59.87.13)
+# DSU environment
+list_hosts=(166.59.83.27 166.59.83.50 166.59.83.26)
+totalresult=0
+for i in ${list_hosts[@]}; do
+    echo '[-]Deploying '$i
+    /usr/bin/ssh -l root ${i} "/usr/bin/yum update -y -x kernel*;echo 'yumresult:'$?" | tee ${DIR}/deploy_$i.txt_${BUILD_NUMB            ER}
+    if grep "yumresult:0" ${DIR}/deploy_$i.txt_${BUILD_NUMBER} > /dev/null
+    then
+        echo '[X]Deployement succeeded for '$i
+    else
+        totalresult=1
+        echo '[!]Deployement failed for '$i
+    fi
+    rm ${DIR}/deploy_$i.txt_${BUILD_NUMBER}
+done
+exit $totalresult   
+
