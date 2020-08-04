@@ -95,7 +95,7 @@
     "vue-style-loader": "^2.0.0",
     "vue-unit": "^0.2.2",
     "webpack": "^2.2.1",
-    "webpack-bundle-analyzer": "^2.2.1",
+    "webpack-bundle-analyzer": "^3.8.0",
     "webpack-merge": "^2.6.1",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
